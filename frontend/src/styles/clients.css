@@ -1,0 +1,15 @@
+.client-table {
+  margin-left: 16px;
+  padding: 15px;
+}
+
+.row {
+  margin-top: 15px;
+}
+
+.truncate {
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

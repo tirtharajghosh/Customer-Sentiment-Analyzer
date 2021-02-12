@@ -1,0 +1,33 @@
+.nav-item {
+  border-bottom: 1px solid #555555;
+}
+
+.sidebar-sticky {
+  padding: 10px;
+  border-bottom: 1px solid #555555;
+}
+
+.sidebar-sticky > img{
+  height: 40px;
+}
+
+.sidebar-sticky > b{
+  padding-left: 10px;
+  color: #ffffff;
+}
+
+.nav-item > a:hover {
+  color: aqua;
+  background-color: #555555;
+}
+
+/* unvisited link */
+a:link {
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: #ffffff;
+  text-decoration: none;
+}
