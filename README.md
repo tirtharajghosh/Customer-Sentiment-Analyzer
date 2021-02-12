@@ -1,6 +1,7 @@
 <h1 align="center">
   <a href="https://tirtharajghosh.github.io/Enterprise-AI/">
-    <img src="https://www.tcs.com/content/dam/tcs/images/logo/tatalogo-blue2x.png" alt="Enterprise-AI Logo" />
+    <img src="https://www.tcs.com/content/dam/tcs/images/logo/tatalogo-blue.png" alt="Enterprise-AI Logo" />
+    <br/>
     Enterprise-AI
   </a>
 </h1>
