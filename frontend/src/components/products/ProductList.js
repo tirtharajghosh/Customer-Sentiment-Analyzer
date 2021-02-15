@@ -3,9 +3,9 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import happyIcon from "../../images/happy.jpg";
-import normalIcon from "../../images/normal.jpg";
-import sadIcon from "../../images/sad.jpg";
+import happyIcon from "../../images/positive.jpg";
+import normalIcon from "../../images/neutral.jpg";
+import sadIcon from "../../images/negative.jpg";
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 const { SearchBar } = Search;
@@ -100,7 +100,7 @@ const DataTable = (props) => {
         formatter: formatCurrency
       }, {
         dataField: 'csat',
-        text: 'Sentiment',
+        text: 'CSAT',
         formatter: csatIcon
       }, {
         dataField: "view",

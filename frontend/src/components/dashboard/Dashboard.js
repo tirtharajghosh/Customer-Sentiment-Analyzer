@@ -72,11 +72,11 @@ const Dash = props => {
                         </div>
                         <div style={{padding: '5px 0 5px 5px'}}>
                             <b>Labels</b><br/>
-                            <i style={{color: '#E5470B'}} className="fas fa-square"></i> CSAT Score 0-1 : Very Negative<br/>
-                            <i style={{color: '#E5990B'}} className="fas fa-square"></i> CSAT Score 1-2 : Negative<br/>
-                            <i style={{color: '#E5DB0B'}} className="fas fa-square"></i> CSAT Score 2-3 : Neutral<br/>
-                            <i style={{color: '#B0E50B'}} className="fas fa-square"></i> CSAT Score 3-4 : Positive<br/>
-                            <i style={{color: '#65E50B'}} className="fas fa-square"></i> CSAT Score 4-5 : Very Positive<br/> 
+                            <i style={{color: '#E5470B'}} className="fas fa-square"></i> CSAT Index 0-1 : Very Negative<br/>
+                            <i style={{color: '#E5990B'}} className="fas fa-square"></i> CSAT Index 1-2 : Negative<br/>
+                            <i style={{color: '#E5DB0B'}} className="fas fa-square"></i> CSAT Index 2-3 : Neutral<br/>
+                            <i style={{color: '#B0E50B'}} className="fas fa-square"></i> CSAT Index 3-4 : Positive<br/>
+                            <i style={{color: '#65E50B'}} className="fas fa-square"></i> CSAT Index 4-5 : Very Positive<br/> 
                         </div>
                         
                     </Col> 

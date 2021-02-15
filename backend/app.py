@@ -66,15 +66,15 @@ def home():
     cur.execute("SELECT COUNT(*) FROM `feedbacks`")
     count_f = cur.fetchone()[0]
     pi=[0,0,0,0,0]
-    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>4")
+    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>0.5")
     pi[0] = cur.fetchone()[0]
-    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>3 AND `customers`.`csat`<=4")
+    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>0.05 AND `customers`.`csat`<=0.5")
     pi[1] = cur.fetchone()[0]
-    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>2 AND `customers`.`csat`<=3")
+    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>-0.05 AND `customers`.`csat`<0.05")
     pi[2] = cur.fetchone()[0]
-    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>1 AND `customers`.`csat`<=2")
+    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>-0.5 AND `customers`.`csat`<=-0.05")
     pi[3] = cur.fetchone()[0]
-    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`>0 AND `customers`.`csat`<=1")
+    cur.execute("SELECT COUNT(*) FROM `customers` WHERE `customers`.`csat`<=-0.5")
     pi[4] = cur.fetchone()[0]
     return jsonify({'count_customer': count_c, 'count_product': count_p, 'count_feedback': count_f, 'pi' : pi })
 
@@ -139,7 +139,7 @@ def client_detail(id):
         for result in pc:
             pcArray.append(dict(zip(row_headers2,result)))
 
-    cur.execute("SELECT DATE_FORMAT(date, '%b-%y') AS Month, ROUND(AVG(`feedbacks`.`csat`),2) AS 'CSAT' FROM ( SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH AS date UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 2 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 3 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 4 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 5 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 6 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 7 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 8 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 9 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 10 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 11 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 12 MONTH ) AS dates LEFT JOIN ( SELECT * FROM `feedbacks` WHERE `feedbacks`.`cid` = "+str(id)+") AS feedbacks ON `feedbacks`.`created_at` >= date AND `feedbacks`.`created_at` < date + INTERVAL 1 MONTH GROUP BY date ORDER BY date")
+    cur.execute("SELECT DATE_FORMAT(date, '%b-%y') AS Month, ROUND(AVG(`feedbacks`.`csat`),2) AS 'Sentiment' FROM ( SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH AS date UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 2 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 3 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 4 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 5 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 6 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 7 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 8 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 9 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 10 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 11 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 12 MONTH ) AS dates LEFT JOIN ( SELECT * FROM `feedbacks` WHERE `feedbacks`.`cid` = "+str(id)+") AS feedbacks ON `feedbacks`.`created_at` >= date AND `feedbacks`.`created_at` < date + INTERVAL 1 MONTH GROUP BY date ORDER BY date")
     cs = cur.fetchall()
     csArray=[]
     if cs is not None:
@@ -155,14 +155,6 @@ def client_detail(id):
         for result in fh:
             fhArray.append(dict(zip(row_headers4,result)))
 
-    cur.execute("SELECT A.name AS name1, B.name AS name2, C.name AS name3, D.name AS name4 FROM `recommendation` JOIN `products` AS A on A.pid = `recommendation`.`item1` JOIN `products` AS B on B.pid = `recommendation`.`item1` JOIN `products` AS C on C.pid = `recommendation`.`item1` JOIN `products` AS D on D.pid = `recommendation`.`item1` WHERE `recommendation`.`cid` = "+str(id))
-    rcname = cur.fetchone()
-    cur.execute("SELECT `recommendation`.`item1`,`recommendation`.`item2`,`recommendation`.`item3`,`recommendation`.`item4` FROM `recommendation` JOIN `products` AS A on A.pid = `recommendation`.`item1` JOIN `products` AS B on B.pid = `recommendation`.`item1` JOIN `products` AS C on C.pid = `recommendation`.`item1` JOIN `products` AS D on D.pid = `recommendation`.`item1` WHERE `recommendation`.`cid` = "+str(id))
-    rclink = cur.fetchone()
-    rc = []
-    if rclink is not None:
-        rc = list(zip(rclink, rcname))
-
     pi=[0,0,0,0,0]
     cur.execute("SELECT COUNT(*) FROM `feedbacks` WHERE `feedbacks`.`csat`>0.5 AND `feedbacks`.`cid` = "+str(id))
     pi[0] = cur.fetchone()[0]
@@ -175,7 +167,7 @@ def client_detail(id):
     cur.execute("SELECT COUNT(*) FROM `feedbacks` WHERE `feedbacks`.`csat`<=-0.5 AND `feedbacks`.`cid` = "+str(id))
     pi[4] = cur.fetchone()[0]
 
-    json_data={"basic":dict(zip(row_headers1,basic)), "purchaseCount": pa[0], "totalRevenue": pa[1], "purchaseActivityChartData": pcArray, "csatHistoryChartData": csArray, "feedbackHistory": fhArray, "recommendations": rc, "overall_csat": pi}
+    json_data={"basic":dict(zip(row_headers1,basic)), "purchaseCount": pa[0], "totalRevenue": pa[1], "purchaseActivityChartData": pcArray, "csatHistoryChartData": csArray, "feedbackHistory": fhArray, "overall_csat": pi}
     return jsonify(json_data)
 
 
@@ -254,7 +246,7 @@ def product_detail(id):
         for result in pc:
             pcArray.append(dict(zip(row_headers2,result)))
 
-    cur.execute("SELECT DATE_FORMAT(date, '%b-%y') AS Month, ROUND(AVG(`feedbacks`.`csat`),2) AS 'CSAT' FROM ( SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH AS date UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 2 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 3 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 4 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 5 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 6 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 7 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 8 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 9 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 10 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 11 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 12 MONTH ) AS dates LEFT JOIN ( SELECT * FROM `feedbacks` WHERE `feedbacks`.`pid` = "+str(id)+") AS feedbacks ON `feedbacks`.`created_at` >= date AND `feedbacks`.`created_at` < date + INTERVAL 1 MONTH GROUP BY date ORDER BY date")
+    cur.execute("SELECT DATE_FORMAT(date, '%b-%y') AS Month, ROUND(AVG(`feedbacks`.`csat`),2) AS 'Sentiment' FROM ( SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH AS date UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 2 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 3 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 4 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 5 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 6 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 7 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 8 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 9 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 10 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 11 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 12 MONTH ) AS dates LEFT JOIN ( SELECT * FROM `feedbacks` WHERE `feedbacks`.`pid` = "+str(id)+") AS feedbacks ON `feedbacks`.`created_at` >= date AND `feedbacks`.`created_at` < date + INTERVAL 1 MONTH GROUP BY date ORDER BY date")
     cs = cur.fetchall()
     csArray=[]
     if cs is not None:

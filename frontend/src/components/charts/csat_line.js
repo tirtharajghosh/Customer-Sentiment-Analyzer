@@ -20,7 +20,7 @@ export default class CSATL extends PureComponent {
           <XAxis dataKey="Month" />
           <YAxis domain={[-1, 1]} />
           <Tooltip />
-          <Line connectNulls type="monotone" dataKey="CSAT" stroke="#8884d8" fill="#8884d8" />
+          <Line connectNulls type="monotone" dataKey="Sentiment" stroke="#8884d8" fill="#8884d8" />
         </LineChart>
       </div>
     );

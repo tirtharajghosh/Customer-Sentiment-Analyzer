@@ -75,7 +75,7 @@ const DataTable = (props) => {
         text: 'Location'
       }, {
         dataField: 'csat',
-        text: 'Sentiment',
+        text: 'CSAT',
         formatter: csatIcon
       }, {
         dataField: 'lp',

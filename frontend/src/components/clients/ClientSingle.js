@@ -21,6 +21,16 @@ const ClientData = props => {
         }
     }
 
+    const parseCsat = (sentiment) => {
+        if(sentiment<-1) {
+            return 0;
+        }
+        if(sentiment>1) {
+            return 5;
+        }
+        return ((sentiment+1)*2.5).toFixed(2);
+    }
+
     useEffect(() => {
         getClientData();
     }, [])
@@ -46,13 +56,13 @@ const ClientData = props => {
                                     <i className="fa fa-envelope"></i> Mail: {clientInfo.loading===true?"":clientInfo.basic.email}<br/>
                                     <i className="fa fa-phone"></i> Phone: {clientInfo.loading===true?"":clientInfo.basic.phone}<br/>
                                     <i className="fa fa-home"></i> City: {clientInfo.loading===true?"":clientInfo.basic.city+", "+clientInfo.basic.state}<br/>
-                                    <i className="fas fa-smile-wink"></i> CSAT Score: {clientInfo.loading===true?"":clientInfo.basic.csat}  <br/>
+                                    <i className="fas fa-smile-wink"></i> CSAT Index: {clientInfo.loading===true?"":parseCsat(clientInfo.basic.csat)}  <br/>
                                     <i className="fas fa-chart-line"></i> Purchase Activity: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>24)?{color: 'green'}:(clientInfo.purchaseCount>12)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>24)?"High":(clientInfo.purchaseCount>12)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
-                                    <i className="fa fa-star"></i> Priority: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?{color: 'green'}:(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?"High":(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
+                                    <i className="fa fa-star"></i> Priority: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?{color: 'green'}:(clientInfo.purchaseCount>12 || clientInfo.totalRevenue>30000)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?"High":(clientInfo.purchaseCount>12 || clientInfo.totalRevenue>30000)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
                                 </Col>
                                 <Col md={3}>
                                     {clientInfo.loading===true?"":<CSATD data={clientInfo.overall_csat} /> }
-                                    <b>Overall Feedbacks</b>
+                                    <b>Overall Sentiment Score</b>
                                 </Col>
                             </Row>
                             <Row>
@@ -73,7 +83,7 @@ const ClientData = props => {
                                             <tr>
                                             <th>Image</th>
                                             <th>Product</th>
-                                            <th>CSAT</th>
+                                            <th>Sentiment Score</th>
                                             <th>Time</th>
                                             </tr>
                                         </thead>

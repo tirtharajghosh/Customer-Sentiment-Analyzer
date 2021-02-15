@@ -46,13 +46,13 @@ const ProductData = props => {
                                     <i className="fa fa-money"></i> Price: {productInfo.loading===true?"":"Rs. "+productInfo.basic.price+".00"}<br/>
                                     <i className="fa fa-bars"></i> Quantity: {productInfo.loading===true?"":productInfo.basic.quantity}<br/>
                                     <i className="fa fa-twitter"></i> Twitter Handle: {productInfo.loading===true?"":<a style={{color: "#0CACEE"}} href={"https://twitter.com/hashtag/"+productInfo.basic.hashtag} target="_blank">{"#"+productInfo.basic.hashtag}</a>}<br/>
-                                    <i className="fas fa-smile-wink"></i> CSAT Score: {productInfo.loading===true?"":productInfo.basic.csat}  <br/>
+                                    <i className="fas fa-smile-wink"></i> CSAT Index: {productInfo.loading===true?"":productInfo.basic.csat}  <br/>
                                     <i className="fas fa-chart-line"></i> Purchase Activity: <font style={productInfo.loading===true?{}:(productInfo.purchaseCount>24)?{color: 'green'}:(productInfo.purchaseCount>12)?{color: 'orange'}:{color: 'red'}} >{productInfo.loading===true?"":(productInfo.purchaseCount>24)?"High":(productInfo.purchaseCount>12)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
                                     {/* <i className="fa fa-star"></i> Priority: <font style={productInfo.loading===true?{}:(productInfo.purchaseCount>24 && productInfo.totalRevenue>60000)?{color: 'green'}:(productInfo.purchaseCount>12 || productInfo.totalRevenue>30000)?{color: 'orange'}:{color: 'red'}} >{productInfo.loading===true?"":(productInfo.purchaseCount>24 && productInfo.totalRevenue>60000)?"High":(productInfo.purchaseCount>12 || productInfo.totalRevenue>30000)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/> */}
                                 </Col>
                                 <Col md={3}>
                                     {productInfo.loading===true?"":<CSATD data={productInfo.overall_csat} /> }
-                                    <b>Overall Feedbacks</b>
+                                    <b>Overall Sentiment Score</b>
                                 </Col>
                             </Row>
                             <Row>
@@ -73,7 +73,7 @@ const ProductData = props => {
                                             <tr>
                                             <th>#</th>
                                             <th>Product</th>
-                                            <th>CSAT</th>
+                                            <th>Sentiment Score</th>
                                             <th>Time</th>
                                             </tr>
                                         </thead>
