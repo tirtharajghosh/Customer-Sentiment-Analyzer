@@ -5,19 +5,19 @@ const GaugeChart = (props) => {
         const width = 300;
         const chartValue = props.value+1;
         const colorData = [{
-                value: 0.5, // Meaning span is 0 to 40
+                value: 0.5, // Meaning span is -1 to -0.5
                 color: '#E5470B'
             }, {
-                value: 0.45, // span 40 to 140
+                value: 0.45, // span -0.5 to -0.05
                 color: '#E5990B'
             }, {
-                value: 0.10, // span 40 to 140
+                value: 0.10, // span -0.05 to 0.05
                 color: '#E5DB0B'
             }, {
-                value: 0.45, // span 140 to 190
+                value: 0.45, // span 0.05 to 0.5
                 color: '#B0E50B'
             }, {
-                value: 0.5,
+                value: 0.5,  // span 0.5 to 1
                 color: '#65E50B'
             }
         ];

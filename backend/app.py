@@ -5,12 +5,14 @@ import MySQLdb.cursors
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import datetime
+import logging
 import json
 import re 
 from classes.TwitterClient import TwitterClient
 
 app = Flask(__name__) 
 
+logging.basicConfig(filename='error.log',level=logging.DEBUG,format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 app.secret_key = 'secret'
 
@@ -21,6 +23,7 @@ app.config['MYSQL_USER'] = 'admin'
 app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'Inframind'
 
+TWEET_COUNT = 100
 
 mysql = MySQL(app) 
 
@@ -36,7 +39,7 @@ def sentiment(sentence):
 
 def tweetAnalyze(hashtag):
     api = TwitterClient() 
-    tweets = api.get_tweets(query = hashtag, count = 10)
+    tweets = api.get_tweets(query = hashtag, count = TWEET_COUNT)
     ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive'] 
     print("Positive tweets percentage: {} %".format(100*len(ptweets)/len(tweets))) 
     ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative'] 
@@ -254,7 +257,7 @@ def product_detail(id):
         for result in cs:
             csArray.append(dict(zip(row_headers3,result)))
     
-    cur.execute("SELECT `customers`.`name`, `feedbacks`.`csat`, DATE_FORMAT(`feedbacks`.`created_at`, '%d %b %Y') as 'created_at' FROM `feedbacks` INNER JOIN `customers` ON `customers`.`cid` = `feedbacks`.`cid` WHERE `feedbacks`.`pid` = "+str(id)+"  LIMIT 3")
+    cur.execute("SELECT `customers`.`name`, `feedbacks`.`csat`, DATE_FORMAT(`feedbacks`.`created_at`, '%d %b %Y') as 'created_at' FROM `feedbacks` INNER JOIN `customers` ON `customers`.`cid` = `feedbacks`.`cid` WHERE `feedbacks`.`pid` = "+str(id)+" ORDER BY `feedbacks`.`created_at` DESC LIMIT 3")
     fh = cur.fetchall()
     fhArray=[]
     if fh is not None:
@@ -328,36 +331,48 @@ def add_feedback():
         videoLink = request.json['videoLink']
         denominator = 0
         csat = 0
+        commentSentiment = 0
+        chatSentiment = 0
+        imageSentiment = 0
+        audioSentiment = 0
+        videoSentiment = 0
         if comment!="":
             denominator += 1 
-            csat += sentiment(comment)
+            commentSentiment = sentiment(comment)
+            csat += commentSentiment
         
         if chat!="":
             denominator += 1 
-            csat += sentiment(chat)
+            chatSentiment = sentiment(chat)
+            csat += chatSentiment
 
         if imageLink!="":
             denominator += 1 
-            csat += sentiment(comment)
+            imageSentiment = sentiment(comment)
+            csat += imageSentiment
 
         if audioLink!="":
-            denominator += 1 
-            csat += sentiment(comment)
+            denominator += 1
+            audioSentiment = sentiment(comment)
+            csat += audioSentiment
 
         if videoLink!="":
             denominator += 1 
-            csat += sentiment(comment)
+            videoSentiment = sentiment(comment)
+            csat += videoSentiment
 
-        app.logger.info("CSAT: "+str(csat)+" | Denom:"+str(denominator))
         if denominator == 0:
             csat = 0
         else:    
             csat = csat/denominator
 
-        app.logger.info("INSERT INTO `feedbacks` (`fid`, `cid`, `pid`, `csat`, `comment`, `image`, `audio`, `video`, `chat_text`, `created_at`, `modified_at`) VALUES (NULL, '"+str(customer)+"', '"+str(product)+"', '"+str(csat)+"', '"+str(comment)+"', '"+str(imageLink)+"', '"+str(audioLink)+"', '"+str(videoLink)+"', '"+str(chat)+"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
         cur = mysql.connection.cursor()
         cur.execute("INSERT INTO `feedbacks` (`fid`, `cid`, `pid`, `csat`, `comment`, `image`, `audio`, `video`, `chat_text`, `created_at`, `modified_at`) VALUES (NULL, '"+str(customer)+"', '"+str(product)+"', '"+str(csat)+"', '"+str(comment)+"', '"+str(imageLink)+"', '"+str(audioLink)+"', '"+str(videoLink)+"', '"+str(chat)+"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
-        app.logger.info("Inserted 1 Feedback")
+        app.logger.info("Inserted 1 Feedback.")
+        cur.execute("UPDATE `customers` SET `customers`.`csat` = (SELECT ROUND(AVG(`feedbacks`.`csat`),4) AS NEW FROM `feedbacks` WHERE `feedbacks`.`cid` = "+str(customer)+") WHERE `customers`.`cid` = "+str(customer))
+        app.logger.info("Updated 1 Customer.")
+        cur.execute("UPDATE `products` SET `products`.`csat` = (SELECT ROUND(AVG(`feedbacks`.`csat`),4) AS NEW FROM `feedbacks` WHERE `feedbacks`.`pid` = "+str(product)+") WHERE `products`.`pid` = "+str(product))
+        app.logger.info("Updated 1 Product.")
         mysql.connection.commit()
         return jsonify({'success': True })
     except Exception as e:

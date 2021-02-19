@@ -3,9 +3,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import happyIcon from "../../images/positive.jpg";
-import normalIcon from "../../images/neutral.jpg";
-import sadIcon from "../../images/negative.jpg";
+import Cmoji from '../utils/csatEmoji';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 const { SearchBar } = Search;
@@ -43,11 +41,7 @@ const DataTable = (props) => {
     };
 
     const csatIcon = (cell, row, rowIndex, formatExtraData) => {
-        console.log(cell);
-        var icon = (cell<1.67)?sadIcon:(cell<3.34)?normalIcon:happyIcon; 
-        return (
-          <img src={icon} alt={cell} title={"CSAT: "+cell} height="40px" />
-        );
+      return (<Cmoji value={cell} />);
     };
 
     const formatDate = (cell, row, rowIndex, formatExtraData) => {

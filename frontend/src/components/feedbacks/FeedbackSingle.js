@@ -67,9 +67,9 @@ const FeedbackData = props => {
                                     <i className="fa fa-envelope"></i> Mail: {clientInfo.loading===true?"":clientInfo.basic.email}<br/>
                                     <i className="fa fa-phone"></i> Phone: {clientInfo.loading===true?"":clientInfo.basic.phone}<br/>
                                     <i className="fa fa-home"></i> City: {clientInfo.loading===true?"":clientInfo.basic.city+", "+clientInfo.basic.state}<br/>
-                                    <i className="fas fa-smile-wink"></i> CSAT Score: {clientInfo.loading===true?"":clientInfo.basic.csat}  <br/>
+                                    <i className="fas fa-smile-wink"></i> CSAT Index: {clientInfo.loading===true?"":clientInfo.basic.csat}  <br/>
                                     <i className="fas fa-chart-line"></i> Purchase Activity: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>24)?{color: 'green'}:(clientInfo.purchaseCount>12)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>24)?"High":(clientInfo.purchaseCount>12)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
-                                    <i className="fa fa-star"></i> Priority: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?{color: 'green'}:(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?"High":(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
+                                    <i className="fa fa-star"></i> Priority: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?{color: 'green'}:(clientInfo.purchaseCount>12 || clientInfo.totalRevenue>30000)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?"High":(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
                                 </Col>
                                 <Col md={3}>
                                 <Image src={productInfo.loading===true?"":productInfo.basic.image} style={{maxHeight: '200px'}} thumbnail/>
@@ -79,7 +79,7 @@ const FeedbackData = props => {
                                     <i className="fa fa-money"></i> Price: {productInfo.loading===true?"":"Rs. "+productInfo.basic.price+".00"}<br/>
                                     <i className="fa fa-bars"></i> Quantity: {productInfo.loading===true?"":productInfo.basic.quantity}<br/>
                                     <i className="fa fa-twitter"></i> Twitter Handle: {productInfo.loading===true?"":<a style={{color: "#0CACEE"}} href={"https://twitter.com/hashtag/"+productInfo.basic.hashtag} target="_blank">{"#"+productInfo.basic.hashtag}</a>}<br/>
-                                    <i className="fas fa-smile-wink"></i> CSAT Score: {productInfo.loading===true?"":productInfo.basic.csat}  <br/>
+                                    <i className="fas fa-smile-wink"></i> CSAT Index: {productInfo.loading===true?"":productInfo.basic.csat}  <br/>
                                     <i className="fas fa-chart-line"></i> Purchase Activity: <font style={productInfo.loading===true?{}:(productInfo.purchaseCount>24)?{color: 'green'}:(productInfo.purchaseCount>12)?{color: 'orange'}:{color: 'red'}} >{productInfo.loading===true?"":(productInfo.purchaseCount>24)?"High":(productInfo.purchaseCount>12)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
                                     
                                 </Col>
@@ -92,7 +92,7 @@ const FeedbackData = props => {
                                             <tr>
                                             <th>Type</th>
                                             <th>Details</th>
-                                            <th>CSAT</th>
+                                            <th>Sentiment</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -110,17 +110,17 @@ const FeedbackData = props => {
                                             </tr>
                                             <tr key={3}>
                                                 <td style={{textAlign: 'center'}}>Image</td> 
-                                                <td><a href={feedbackInfo.image} target="_blank" >Open in new tab</a></td>
+                                                <td>{feedbackInfo.image?<a style={{color: "blue"}} href={feedbackInfo.image} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
                                                 <td>{feedbackInfo.image_csat}</td>
                                             </tr>
                                             <tr key={4}>
                                                 <td style={{textAlign: 'center'}}>Audio</td> 
-                                                <td><a href={feedbackInfo.audio} target="_blank" >Open in new tab</a></td>
+                                                <td>{feedbackInfo.audio?<a style={{color: "blue"}} href={feedbackInfo.audio} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
                                                 <td>{feedbackInfo.audio_csat}</td>
                                             </tr>
                                             <tr key={1}>
                                                 <td style={{textAlign: 'center'}}>Video</td> 
-                                                <td><a href={feedbackInfo.video} target="_blank" >Open in new tab</a></td>
+                                                <td>{feedbackInfo.video?<a style={{color: "blue"}} href={feedbackInfo.video} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
                                                 <td>{feedbackInfo.video_csat}</td>
                                             </tr>
                                             </>

@@ -18,15 +18,15 @@ const parseCsat = (sentiment) => {
 const Cmoji = props => {
     const key = parseCsat(props.value);
     if(key<1)
-        return <img src={verySadIcon} alt={key} title={"CSAT: "+key} height="40px" />;
+        return <img src={verySadIcon} alt={props.raw ? props.value : key} title={props.raw ? "Sentiment: "+props.value : "CSAT: "+key} height="40px" />;
     if(1<=key && key<2)
-        return <img src={sadIcon} alt={key} title={"CSAT: "+key} height="40px" />;
+        return <img src={sadIcon} alt={props.raw ? props.value : key} title={props.raw ? "Sentiment: "+props.value : "CSAT: "+key} height="40px" />;
     if(2<=key && key<=3)
-        return <img src={normalIcon} alt={key} title={"CSAT: "+key} height="40px" />;
+        return <img src={normalIcon} alt={props.raw ? props.value : key} title={props.raw ? "Sentiment: "+props.value : "CSAT: "+key} height="40px" />;
     if(3<key && key<=4)
-        return <img src={happyIcon} alt={key} title={"CSAT: "+key} height="40px" />;
+        return <img src={happyIcon} alt={props.raw ? props.value : key} title={props.raw ? "Sentiment: "+props.value : "CSAT: "+key} height="40px" />;
     if(4<key)
-        return <img src={veryHappyIcon} alt={key} title={"CSAT: "+key} height="40px" />;
+        return <img src={veryHappyIcon} alt={props.raw ? props.value : key} title={props.raw ? "Sentiment: "+props.value : "CSAT: "+key} height="40px" />;
     return "NA";
 };
 

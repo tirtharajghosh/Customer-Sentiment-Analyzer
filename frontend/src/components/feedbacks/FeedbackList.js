@@ -3,7 +3,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import Cmoji from '../utils/csatEmoji';
+import Smoji from '../utils/sentEmoji';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 const { SearchBar } = Search;
@@ -34,7 +34,7 @@ const DataTable = (props) => {
     };
 
     const csatIcon = (cell, row, rowIndex, formatExtraData) => {
-      return (<Cmoji value={cell} />);
+      return (<Smoji value={cell} />);
   };
 
     const formatDate = (cell, row, rowIndex, formatExtraData) => {
