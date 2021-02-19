@@ -14,7 +14,7 @@ const ClientForm = props => {
     const submitFormData = async () => {
         try {
             const response = await axios.post('/client', formData);
-            if(response.data.success == true){
+            if(response.data.success === true){
                 setAlert(true);
             }
         } catch (error) {

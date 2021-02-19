@@ -26,7 +26,7 @@ const DataTable = (props) => {
     }
 
     const formatImage = (cell, row, rowIndex, formatExtraData) => {
-      return <img src={cell} width="50px" style={{maxHeight: '50px'}} />;
+      return <img src={cell} alt="product" width="50px" style={{maxHeight: '50px'}} />;
     };
 
     const formatText = (cell, row, rowIndex, formatExtraData) => {
@@ -42,11 +42,6 @@ const DataTable = (props) => {
 
     const csatIcon = (cell, row, rowIndex, formatExtraData) => {
       return (<Cmoji value={cell} />);
-    };
-
-    const formatDate = (cell, row, rowIndex, formatExtraData) => {
-        var date = (cell==null)? "No Purchase" : cell.split(" ").slice(0,4).join(" ");
-        return (date);
     };
     
     const viewButton = (cell, row, rowIndex, formatExtraData) => {
@@ -70,8 +65,6 @@ const DataTable = (props) => {
     };
 
     const deleteButton = (cell, row, rowIndex, formatExtraData) => {
-        let link = "/client/"+rowIndex;
-        console.log(row);
         return (
           <Button onClick={()=>props.handleAlert(row.pid)} variant="danger" >
             Delete

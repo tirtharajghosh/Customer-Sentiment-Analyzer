@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Container, Row, Col, Navbar, ListGroup, Image, Table } from "react-bootstrap";
+import {Container, Row, Col, Navbar, Image, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import Sidebar from "../sidebar/Sidebar.js";
 import CSATD from "../charts/csat_doughnut";
@@ -45,7 +45,7 @@ const ProductData = props => {
                                     <b>{productInfo.loading===true?"":productInfo.basic.name}</b><br/>
                                     <i className="fa fa-money"></i> Price: {productInfo.loading===true?"":"Rs. "+productInfo.basic.price+".00"}<br/>
                                     <i className="fa fa-bars"></i> Quantity: {productInfo.loading===true?"":productInfo.basic.quantity}<br/>
-                                    <i className="fa fa-twitter"></i> Twitter Handle: {productInfo.loading===true?"":<a style={{color: "#0CACEE"}} href={"https://twitter.com/hashtag/"+productInfo.basic.hashtag} target="_blank">{"#"+productInfo.basic.hashtag}</a>}<br/>
+                                    <i className="fa fa-twitter"></i> Twitter Handle: {productInfo.loading===true?"":<a style={{color: "#0CACEE"}} rel="noreferrer" href={"https://twitter.com/hashtag/"+productInfo.basic.hashtag} target="_blank">{"#"+productInfo.basic.hashtag}</a>}<br/>
                                     <i className="fas fa-smile-wink"></i> CSAT Index: {productInfo.loading===true?"":productInfo.basic.csat}  <br/>
                                     <i className="fas fa-chart-line"></i> Purchase Activity: <font style={productInfo.loading===true?{}:(productInfo.purchaseCount>24)?{color: 'green'}:(productInfo.purchaseCount>12)?{color: 'orange'}:{color: 'red'}} >{productInfo.loading===true?"":(productInfo.purchaseCount>24)?"High":(productInfo.purchaseCount>12)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
                                     {/* <i className="fa fa-star"></i> Priority: <font style={productInfo.loading===true?{}:(productInfo.purchaseCount>24 && productInfo.totalRevenue>60000)?{color: 'green'}:(productInfo.purchaseCount>12 || productInfo.totalRevenue>30000)?{color: 'orange'}:{color: 'red'}} >{productInfo.loading===true?"":(productInfo.purchaseCount>24 && productInfo.totalRevenue>60000)?"High":(productInfo.purchaseCount>12 || productInfo.totalRevenue>30000)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/> */}

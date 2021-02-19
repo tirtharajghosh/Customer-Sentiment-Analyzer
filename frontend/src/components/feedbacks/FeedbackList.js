@@ -64,8 +64,6 @@ const DataTable = (props) => {
     };
 
     const deleteButton = (cell, row, rowIndex, formatExtraData) => {
-        let link = "/client/"+rowIndex;
-        console.log(row);
         return (
           <Button onClick={()=>props.handleAlert(row.fid)} variant="danger" >
             Delete

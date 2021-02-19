@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Container, Row, Col, Navbar, ListGroup, Image, Table } from "react-bootstrap";
+import {Container, Row, Col, Navbar, Image, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import Sidebar from "../sidebar/Sidebar.js";
 import GaugeChart from "../charts/gauge_chart";
@@ -78,7 +78,7 @@ const FeedbackData = props => {
                                     <b>{productInfo.loading===true?"":productInfo.basic.name}</b><br/>
                                     <i className="fa fa-money"></i> Price: {productInfo.loading===true?"":"Rs. "+productInfo.basic.price+".00"}<br/>
                                     <i className="fa fa-bars"></i> Quantity: {productInfo.loading===true?"":productInfo.basic.quantity}<br/>
-                                    <i className="fa fa-twitter"></i> Twitter Handle: {productInfo.loading===true?"":<a style={{color: "#0CACEE"}} href={"https://twitter.com/hashtag/"+productInfo.basic.hashtag} target="_blank">{"#"+productInfo.basic.hashtag}</a>}<br/>
+                                    <i className="fa fa-twitter"></i> Twitter Handle: {productInfo.loading===true?"":<a style={{color: "#0CACEE"}} rel="noreferrer" href={"https://twitter.com/hashtag/"+productInfo.basic.hashtag} target="_blank">{"#"+productInfo.basic.hashtag}</a>}<br/>
                                     <i className="fas fa-smile-wink"></i> CSAT Index: {productInfo.loading===true?"":productInfo.basic.csat}  <br/>
                                     <i className="fas fa-chart-line"></i> Purchase Activity: <font style={productInfo.loading===true?{}:(productInfo.purchaseCount>24)?{color: 'green'}:(productInfo.purchaseCount>12)?{color: 'orange'}:{color: 'red'}} >{productInfo.loading===true?"":(productInfo.purchaseCount>24)?"High":(productInfo.purchaseCount>12)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
                                     
@@ -110,17 +110,17 @@ const FeedbackData = props => {
                                             </tr>
                                             <tr key={3}>
                                                 <td style={{textAlign: 'center'}}>Image</td> 
-                                                <td>{feedbackInfo.image?<a style={{color: "blue"}} href={feedbackInfo.image} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
+                                                <td>{feedbackInfo.image?<a style={{color: "blue"}} rel="noreferrer" href={feedbackInfo.image} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
                                                 <td>{feedbackInfo.image_csat}</td>
                                             </tr>
                                             <tr key={4}>
                                                 <td style={{textAlign: 'center'}}>Audio</td> 
-                                                <td>{feedbackInfo.audio?<a style={{color: "blue"}} href={feedbackInfo.audio} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
+                                                <td>{feedbackInfo.audio?<a style={{color: "blue"}} rel="noreferrer" href={feedbackInfo.audio} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
                                                 <td>{feedbackInfo.audio_csat}</td>
                                             </tr>
                                             <tr key={1}>
                                                 <td style={{textAlign: 'center'}}>Video</td> 
-                                                <td>{feedbackInfo.video?<a style={{color: "blue"}} href={feedbackInfo.video} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
+                                                <td>{feedbackInfo.video?<a style={{color: "blue"}} rel="noreferrer" href={feedbackInfo.video} target="_blank" >Open <i class="fa fa-external-link-alt"></i></a>:null}</td>
                                                 <td>{feedbackInfo.video_csat}</td>
                                             </tr>
                                             </>

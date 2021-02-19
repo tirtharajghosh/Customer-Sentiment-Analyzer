@@ -1,23 +1,10 @@
-import React, { useState, useEffect} from "react";
-import axios from 'axios';
-import {Card, CardDeck } from "react-bootstrap";
+import React, { useEffect} from "react";
 import {Container, Row, Col } from "react-bootstrap";
 import { withRouter } from "react-router";
 import Sidebar from "../sidebar/Sidebar.js";
-import CSATD from "../charts/csat_doughnut";
 import '../../styles/dashboard.css';
 
 const About = props => {
-    const [info, setInfo] = useState({loading: true});
-
-    const getDashboardData = async () => {
-        try {
-            const response = await axios.get('/dashboard');
-            setInfo(Object.assign({loading: false} , response.data));
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
     useEffect(() => {
         document.title = "About";

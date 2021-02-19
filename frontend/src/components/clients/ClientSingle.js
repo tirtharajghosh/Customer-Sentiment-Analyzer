@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Container, Row, Col, Navbar, ListGroup, Image, Table } from "react-bootstrap";
+import {Container, Row, Col, Navbar, Image, Table } from "react-bootstrap";
 import { withRouter } from "react-router";
 import Sidebar from "../sidebar/Sidebar.js";
 import CSATD from "../charts/csat_doughnut";
@@ -91,7 +91,7 @@ const ClientData = props => {
                                         {clientInfo.loading===true?<tr><td></td><td></td><td></td><td></td></tr>:clientInfo.feedbackHistory.map((item, i) => {
                                             return [
                                                 <tr key={i}>
-                                                <td style={{textAlign: 'center'}}><img src={item.image} height="20px" /></td> 
+                                                <td style={{textAlign: 'center'}}><img src={item.image} alt="product" height="20px" /></td> 
                                                 <td>{item.name.length > 70? item.name.substr(0, 69)+"...":item.name}</td>
                                                 <td>{item.csat}</td>
                                                 <td>{item.created_at}</td>

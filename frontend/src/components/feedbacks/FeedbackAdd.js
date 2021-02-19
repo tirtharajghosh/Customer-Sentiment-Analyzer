@@ -18,7 +18,7 @@ const ClientForm = props => {
     const getCustomerSelect = async () => {
         try {
             const response = await axios.get('/clientselect');
-            if(response.data.success == true){
+            if(response.data.success === true){
                 setCustomerSelect(response.data.options);
             }
         } catch (error) {
@@ -29,7 +29,7 @@ const ClientForm = props => {
     const getProductSelect = async () => {
         try {
             const response = await axios.get('/productselect');
-            if(response.data.success == true){
+            if(response.data.success === true){
                 setProductSelect(response.data.options);
             }
         } catch (error) {
@@ -40,7 +40,7 @@ const ClientForm = props => {
     const submitFormData = async () => {
         try {
             const response = await axios.post('/feedback', formData);
-            if(response.data.success == true){
+            if(response.data.success === true){
                 setAlert(true);
             }
         } catch (error) {
