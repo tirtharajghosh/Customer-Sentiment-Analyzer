@@ -17,19 +17,19 @@ const Side = props => {
                     <b>Inframind</b>
                 </div>
                 <Nav.Item>
-                    <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                    <Nav.Link style={{color: 'white'}} href="/dashboard">Dashboard</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/clients">Clients</Nav.Link>
+                    <Nav.Link style={{color: 'white'}} href="/clients">Clients</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/products">Products</Nav.Link>
+                    <Nav.Link style={{color: 'white'}} href="/products">Products</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/feedbacks">Feedbacks</Nav.Link>
+                    <Nav.Link style={{color: 'white'}} href="/feedbacks">Feedbacks</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Nav.Link href="/about">About</Nav.Link>
+                    <Nav.Link style={{color: 'white'}} href="/about">About</Nav.Link>
                 </Nav.Item>
             </Nav>
           
