@@ -19,9 +19,9 @@ app.secret_key = 'secret'
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'admin'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = 'Inframind'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'inframind'
 
 TWEET_COUNT = 100
 
@@ -132,8 +132,10 @@ def client_detail(id):
     basic = cur.fetchone()
     
     cur.execute("SELECT COUNT(*) AS cnt, SUM(products.price) AS revenue FROM `feedbacks` JOIN `products` ON `products`.`pid` = `feedbacks`.`pid` WHERE `feedbacks`.`cid` = "+str(id)+" AND `feedbacks`.`created_at` >= DATE_SUB(NOW(),INTERVAL 1 YEAR)")
+    row_headersPa=[x[0] for x in cur.description] #this will extract row headers
     pa = cur.fetchone()
-    app.logger.info(pa)
+    paDict = {"cnt": int(pa[0]), "revenue": int(pa[1])}
+
     cur.execute("SELECT DATE_FORMAT(date, '%b-%y') AS Month, COUNT(`feedbacks`.`fid`) AS 'Total Purchase' FROM ( SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH AS date UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 2 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 3 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 4 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 5 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 6 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 7 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 8 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 9 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 10 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 11 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 12 MONTH ) AS dates LEFT JOIN ( SELECT * FROM `feedbacks` WHERE `feedbacks`.`cid` = "+str(id)+") AS feedbacks ON `feedbacks`.`created_at` >= date AND `feedbacks`.`created_at` < date + INTERVAL 1 MONTH GROUP BY date ORDER BY date")
     pc = cur.fetchall()
     pcArray=[]
@@ -170,7 +172,7 @@ def client_detail(id):
     cur.execute("SELECT COUNT(*) FROM `feedbacks` WHERE `feedbacks`.`csat`<=-0.5 AND `feedbacks`.`cid` = "+str(id))
     pi[4] = cur.fetchone()[0]
 
-    json_data={"basic":dict(zip(row_headers1,basic)), "purchaseCount": pa[0], "totalRevenue": pa[1], "purchaseActivityChartData": pcArray, "csatHistoryChartData": csArray, "feedbackHistory": fhArray, "overall_csat": pi}
+    json_data={"basic":dict(zip(row_headers1,basic)), "purchaseCount": paDict['cnt'], "totalRevenue": paDict['revenue'], "purchaseActivityChartData": pcArray, "csatHistoryChartData": csArray, "feedbackHistory": fhArray, "overall_csat": pi}
     return jsonify(json_data)
 
 
