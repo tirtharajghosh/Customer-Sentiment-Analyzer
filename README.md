@@ -14,11 +14,11 @@ customers.</strong><br>
 </p>
 
 <h3 align="center">
-  <a href="https://www.geeksforgeeks.org/sorting-algorithms/">Read the docs</a>
+  <a href="#">Read the docs</a>
   <span> · </span>
-  <a href="https://tirtharajghosh.github.io/Enterprise-AI/">Demo</a>
+  <a href="#">Demo</a>
   <span> · </span>
-  <a href="https://tirtharajghosh.github.io/Enterprise-AI/">Youtube</a>
+  <a href="https://youtu.be/kVWQ89XQKuY">Youtube</a>
 </h3>
 
 Enterprise-AI brings **React**'s declarative UI framework to visualize various different analysis with charts
