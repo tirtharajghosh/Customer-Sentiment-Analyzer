@@ -13,18 +13,6 @@ customers.</strong><br>
   Contains Sentiment Analysis for Feedbacks, Chats, Images, Audios, Videos, Social Media and many more.
 </p>
 
-<p align="center">
-  <a href="https://github.com/tirtharajghosh/Enterprise-AI/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Enterprise-AI is released under the MIT license." />
-  </a>
-  <a href="https://github.com/tirtharajghosh/Enterprise-AI/">
-    <img src="https://img.shields.io/github/package-json/v/tirtharajghosh/Enterprise-AI" alt="Enterprise-AI Version" />
-  </a>
-  <a href="https://twitter.com/intent/follow?screen_name=levelplusplus">
-    <img src="https://img.shields.io/twitter/follow/reactnative.svg?label=Follow%20@levelplusplus" alt="Follow @levelplusplus" />
-  </a>
-</p>
-
 <h3 align="center">
   <a href="https://www.geeksforgeeks.org/sorting-algorithms/">Read the docs</a>
   <span> · </span>
