@@ -20,9 +20,6 @@ customers.</strong><br>
   <a href="https://github.com/tirtharajghosh/Enterprise-AI/">
     <img src="https://img.shields.io/github/package-json/v/tirtharajghosh/Enterprise-AI" alt="Enterprise-AI Version" />
   </a>
-  <a href="https://github.com/tirtharajghosh/Enterprise-AI/">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome!" />
-  </a>
   <a href="https://twitter.com/intent/follow?screen_name=levelplusplus">
     <img src="https://img.shields.io/twitter/follow/reactnative.svg?label=Follow%20@levelplusplus" alt="Follow @levelplusplus" />
   </a>
@@ -37,15 +34,3 @@ customers.</strong><br>
 </h3>
 
 Enterprise-AI brings [**React**'s][r] declarative UI framework to visualize various different analysis with charts
-
-- **Ultra Responsive.** React and bootstrap make it ultra-responsive so you can interact with it on the go. So mobile devices or tablets or desktops are same now.
-- **Easily-Understandable.** Built with keeping the good practices in mind. Encapsulated components that manage their state, then compose them to make the UI.
-- **High Accuracy.** Backend powered by Python Flask which includes the highly accurate machine learning algorithms.
-
-[r]: https://reactjs.org/
-
-## 📄 License
-
-Enterprise-AI is MIT licensed, as found in the [LICENSE][l] file.
-
-[l]: https://github.com/tirtharajghosh/Enterprise-AI/blob/master/LICENSE
