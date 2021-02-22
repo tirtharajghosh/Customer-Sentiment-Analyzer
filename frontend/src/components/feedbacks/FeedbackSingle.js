@@ -69,7 +69,7 @@ const FeedbackData = props => {
                                     <i className="fa fa-home"></i> City: {clientInfo.loading===true?"":clientInfo.basic.city+", "+clientInfo.basic.state}<br/>
                                     <i className="fas fa-smile-wink"></i> CSAT Index: {clientInfo.loading===true?"":clientInfo.basic.csat}  <br/>
                                     <i className="fas fa-chart-line"></i> Purchase Activity: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>24)?{color: 'green'}:(clientInfo.purchaseCount>12)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>24)?"High":(clientInfo.purchaseCount>12)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
-                                    <i className="fa fa-star"></i> Priority: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?{color: 'green'}:(clientInfo.purchaseCount>12 || clientInfo.totalRevenue>30000)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>24 && clientInfo.totalRevenue>60000)?"High":(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
+                                    <i className="fa fa-star"></i> Priority: <font style={clientInfo.loading===true?{}:(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?{color: 'green'}:(clientInfo.purchaseCount>12 || clientInfo.totalRevenue>30000)?{color: 'orange'}:{color: 'red'}} >{clientInfo.loading===true?"":(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?"High":(clientInfo.purchaseCount>12 && clientInfo.totalRevenue>30000)?"Normal":"Low"} <i className="fas fa-square"></i></font><br/>
                                 </Col>
                                 <Col md={3}>
                                 <Image src={productInfo.loading===true?"":productInfo.basic.image} style={{maxHeight: '200px'}} thumbnail/>
@@ -129,7 +129,7 @@ const FeedbackData = props => {
                                     </Table>
                                 </Col>
                                 <Col md={6}>
-                                    <b>Overall Customer Satisfaction</b><br/>
+                                    <b>Overall Sentiment</b><br/>
                                     <b style={{fontSize: '50px'}}>{feedbackInfo.csat}</b>
                                     <GaugeChart value={feedbackInfo.csat}/>
                                 </Col>

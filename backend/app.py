@@ -21,7 +21,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'inframind'
+app.config['MYSQL_DB'] = 'infra'
 
 TWEET_COUNT = 100
 
@@ -131,7 +131,7 @@ def client_detail(id):
     row_headers1=[x[0] for x in cur.description] #this will extract row headers
     basic = cur.fetchone()
     
-    cur.execute("SELECT COUNT(*) AS cnt, SUM(products.price) AS revenue FROM `feedbacks` JOIN `products` ON `products`.`pid` = `feedbacks`.`pid` WHERE `feedbacks`.`cid` = "+str(id)+" AND `feedbacks`.`created_at` >= DATE_SUB(NOW(),INTERVAL 1 YEAR)")
+    cur.execute("SELECT COUNT(*) AS cnt, coalesce(SUM(products.price),0) AS revenue FROM `feedbacks` JOIN `products` ON `products`.`pid` = `feedbacks`.`pid` WHERE `feedbacks`.`cid` = "+str(id)+" AND `feedbacks`.`created_at` >= DATE_SUB(NOW(),INTERVAL 1 YEAR)")
     row_headersPa=[x[0] for x in cur.description] #this will extract row headers
     pa = cur.fetchone()
     paDict = {"cnt": int(pa[0]), "revenue": int(pa[1])}
@@ -220,7 +220,7 @@ def add_product():
 @cross_origin()
 def get_product():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT `products`.`pid`, `products`.`image` , `products`.`name`, `products`.`price`, `products`.`csat` FROM `products`")
+    cur.execute("SELECT `products`.`pid`, `products`.`image` , `products`.`name`, `products`.`price`, `products`.`csat` FROM `products` ORDER BY `products`.`name` ")
     row_headers=[x[0] for x in cur.description] #this will extract row headers
     rv = cur.fetchall()
     json_data=[]
@@ -240,9 +240,10 @@ def product_detail(id):
     basicDetails = dict(zip(row_headers1,basic))
     ta = tweetAnalyze("#"+basicDetails['hashtag'])
     
-    cur.execute("SELECT COUNT(*) AS cnt, SUM(products.price) AS revenue FROM `feedbacks` JOIN `products` ON `products`.`pid` = `feedbacks`.`pid` WHERE `feedbacks`.`pid` = "+str(id)+" AND `feedbacks`.`created_at` >= DATE_SUB(NOW(),INTERVAL 1 YEAR)")
+    cur.execute("SELECT COUNT(*) AS cnt, coalesce(SUM(products.price),0) AS revenue FROM `feedbacks` JOIN `products` ON `products`.`pid` = `feedbacks`.`pid` WHERE `feedbacks`.`pid` = "+str(id)+" AND `feedbacks`.`created_at` >= DATE_SUB(NOW(),INTERVAL 1 YEAR)")
     pa = cur.fetchone()
-    app.logger.info(pa)
+    paDict = {"cnt": int(pa[0]), "revenue": int(pa[1])}
+
     cur.execute("SELECT DATE_FORMAT(date, '%b-%y') AS Month, COUNT(`feedbacks`.`fid`) AS 'Total Purchase' FROM ( SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH AS date UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 2 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 3 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 4 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 5 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 6 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 7 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 8 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 9 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 10 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 11 MONTH UNION ALL SELECT LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 12 MONTH ) AS dates LEFT JOIN ( SELECT * FROM `feedbacks` WHERE `feedbacks`.`pid` = "+str(id)+") AS feedbacks ON `feedbacks`.`created_at` >= date AND `feedbacks`.`created_at` < date + INTERVAL 1 MONTH GROUP BY date ORDER BY date")
     pc = cur.fetchall()
     pcArray=[]
@@ -279,7 +280,7 @@ def product_detail(id):
     cur.execute("SELECT COUNT(*) FROM `feedbacks` WHERE `feedbacks`.`csat`<=-0.5 AND `feedbacks`.`pid` = "+str(id))
     pi[4] = cur.fetchone()[0]
 
-    json_data={"basic": basicDetails, "purchaseCount": pa[0], "totalRevenue": pa[1], "purchaseActivityChartData": pcArray, "csatHistoryChartData": csArray, "feedbackHistory": fhArray, "overall_csat": pi, "twitterAnalysis": ta}
+    json_data={"basic": basicDetails, "purchaseCount": paDict['cnt'], "totalRevenue": paDict['revenue'], "purchaseActivityChartData": pcArray, "csatHistoryChartData": csArray, "feedbackHistory": fhArray, "overall_csat": pi, "twitterAnalysis": ta}
     return jsonify(json_data)
 
 
@@ -369,7 +370,8 @@ def add_feedback():
             csat = csat/denominator
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO `feedbacks` (`fid`, `cid`, `pid`, `csat`, `comment`, `image`, `audio`, `video`, `chat_text`, `created_at`, `modified_at`) VALUES (NULL, '"+str(customer)+"', '"+str(product)+"', '"+str(csat)+"', '"+str(comment)+"', '"+str(imageLink)+"', '"+str(audioLink)+"', '"+str(videoLink)+"', '"+str(chat)+"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+        
+        cur.execute("INSERT INTO `feedbacks` (`fid`, `cid`, `pid`, `csat`, `comment`, `comment_csat`, `image`, `image_csat`, `audio`, `audio_csat`, `video`, `video_csat`, `chat_text`, `chat_csat`, `created_at`, `modified_at`) VALUES (NULL, '"+str(customer)+"', '"+str(product)+"', '"+str(csat)+"', '"+str(comment)+"', '"+str(commentSentiment)+"', '"+str(imageLink)+"', '"+str(imageSentiment)+"', '"+str(audioLink)+"', '"+str(audioSentiment)+"', '"+str(videoLink)+"', '"+str(videoSentiment)+"', '"+str(chat)+"', '"+str(chatSentiment)+"', current_timestamp(), current_timestamp())")
         app.logger.info("Inserted 1 Feedback.")
         cur.execute("UPDATE `customers` SET `customers`.`csat` = (SELECT ROUND(AVG(`feedbacks`.`csat`),4) AS NEW FROM `feedbacks` WHERE `feedbacks`.`cid` = "+str(customer)+") WHERE `customers`.`cid` = "+str(customer))
         app.logger.info("Updated 1 Customer.")
