@@ -21,4 +21,4 @@ customers.</strong><br>
   <a href="https://tirtharajghosh.github.io/Enterprise-AI/">Youtube</a>
 </h3>
 
-Enterprise-AI brings [**React**'s][r] declarative UI framework to visualize various different analysis with charts
+Enterprise-AI brings **React**'s declarative UI framework to visualize various different analysis with charts
